@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./packages/shared/src/*"],
+    },
+    "composite": true,
+   
+  },
+  "exclude": ["node_modules", "dist", "build", ".vscode", "**/*.spec.ts", "**/*.test.ts"],
+  "files": [],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./apps/client" },
+    { "path": "./apps/server" }
+  ]
+}

@@ -1,0 +1,12 @@
+packages:
+  - apps/*
+  - packages/*
+
+ignoredBuildDependencies:
+  - '@parcel/watcher'
+  - bcrypt
+  - esbuild
+
+# ✅ זה מאפשר לכל החבילות להשתמש בתלויות מהשורש בלבד
+public-hoist-pattern:
+  - '*'
