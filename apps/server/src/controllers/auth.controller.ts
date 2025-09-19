@@ -51,7 +51,7 @@ export const registerUserWithImage = async (
         const hashedPassword = await bcrypt.hash(password, 10);
         const verificationToken = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1d' });
 
-        const imagePath = (req as any).file?.filename;
+        const imagePath = (req as Request & { file?: { filename: string } }).file?.filename;
 
         const newUser = new User({
             name: `${firstName} ${middleName || ''} ${lastName}`,
@@ -188,7 +188,7 @@ export const promoteToAdmin = async (req: Request, res: Response) => {
 // פרופיל משתמש מחובר
 export const getUserProfile = async (req: Request, res: Response) => {
     try {
-        const userId = (req as any).user?._id;
+        const userId = (req as Request & { user?: { _id: string } }).user?._id;
         if (!userId) return res.status(401).json({ message: 'אין הרשאה' });
 
         const user = await User.findById(userId).select('-password -verificationToken');

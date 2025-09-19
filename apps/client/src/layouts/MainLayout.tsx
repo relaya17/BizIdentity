@@ -15,6 +15,8 @@ import { useAppSelector } from '../redux/hooks';
 import { useColorMode } from '../hooks/useColorMode';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 // פוטרים
 import AdminFooter from '../components/footer/AdminFooter';
@@ -90,6 +92,7 @@ const MainLayout: React.FC = () => {
   const [bottomNavValue, setBottomNavValue] = useState(0);
   const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -209,6 +212,8 @@ const MainLayout: React.FC = () => {
               <StyledInputBase placeholder="חיפוש..." inputProps={{ 'aria-label': 'search' }} />
             </Search>
 
+            <LanguageSwitcher />
+            
             <Tooltip title={mode === 'light' ? 'מצב כהה' : 'מצב בהיר'}>
               <IconButton sx={{ mr: 1 }} onClick={toggleColorMode} color="inherit">
                 {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

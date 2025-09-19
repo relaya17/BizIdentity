@@ -4,6 +4,11 @@
     import { useAppSelector, useAppDispatch } from './redux/hooks'; 
     import AppRouter from './routes/AppRouter';
     import { loadUserFromTokenThunk } from './redux/thunks/authThunks';
+import Analytics from './components/Analytics';
+import SEO from './components/SEO';
+import ErrorBoundary from './components/ErrorBoundary';
+import PerformanceMonitor from './components/PerformanceMonitor';
+import './i18n';
 
     // 🆕 ייבוא כל קבצי הפוטר הנדרשים:
     import GuestFooter from './components/footer/GuestFooter'; // הפוטר לאורח (לא מחובר)
@@ -37,8 +42,11 @@
       }
 
       return (
-        <> 
+        <ErrorBoundary>
+          <SEO />
           <CssBaseline /> 
+          <Analytics />
+          <PerformanceMonitor />
           
           <Box
             display="flex"
@@ -53,7 +61,7 @@
             
             <CurrentFooterComponent /> {/* מרנדרים את הפוטר שנבחר */}
           </Box>
-        </>
+        </ErrorBoundary>
       );
     };
 

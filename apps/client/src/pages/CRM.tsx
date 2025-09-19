@@ -1,5 +1,5 @@
 // src/pages/CRM.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,10 +15,6 @@ import {
   TableRow,
   Paper,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Snackbar,
   Dialog,
   DialogActions,
@@ -28,8 +24,6 @@ import {
   Container,
 } from "@mui/material";
 import { AlertColor } from '@mui/material/Alert';
-// 🆕 שימוש ב-useTheme
-import { useTheme } from '@mui/material/styles';
 
 // הגדרת axios base URL (חשוב!)
 axios.defaults.baseURL = 'http://localhost:5000/api';
@@ -42,7 +36,6 @@ interface IUser {
 }
 
 const CRM = () => {
-  const theme = useTheme(); // 🆕 גישה ל-theme הגלובלי
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +85,7 @@ const CRM = () => {
   }, [navigate]);
 
   // טעינת משתמשים
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -104,6 +97,9 @@ const CRM = () => {
         const errorResponse = e as { response?: { data?: { message?: string } } };
         if (errorResponse.response?.data?.message) {
           setError(`שגיאה בטעינת המשתמשים: ${errorResponse.response.data.message}`);
+        } else {
+          setError("שגיאה בטעינת המשתמשים");
+        }
       } else {
         setError("שגיאה בטעינת המשתמשים");
       }
@@ -111,7 +107,7 @@ const CRM = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -121,11 +117,11 @@ const CRM = () => {
         if (payload.role === "admin") {
           fetchUsers();
         }
-      } catch (e) {
+      } catch {
         // Token issue handled by the first useEffect
       }
     }
-  }, []);
+  }, [fetchUsers]);
 
   const changeRole = async (userId: string, newRole: IUser["role"]) => {
     try {

@@ -28,10 +28,24 @@ interface CustomThemeProviderProps {
 export const CustomThemeProvider: React.FC<CustomThemeProviderProps> = ({
   children,
 }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  // Load theme from localStorage or default to 'light'
+  const [mode, setMode] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark';
+      return savedMode || 'light';
+    }
+    return 'light';
+  });
 
   const toggleColorMode = useCallback(() => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    setMode((prevMode) => {
+      const newMode = prevMode === 'light' ? 'dark' : 'light';
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme-mode', newMode);
+      }
+      return newMode;
+    });
   }, []);
 
   const theme = useMemo(() => getTheme(mode), [mode]);
