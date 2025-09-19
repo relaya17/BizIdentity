@@ -1,19 +1,23 @@
-# Dependencies 
-node_modules/ 
-**/node_modules/ 
-# Builds 
-dist/ 
-**/dist/ 
-.turbo/ 
-.tsbuildinfo/ 
-# Env 
-.env 
-**/.env* 
-# Logs 
-logs/ 
-*.log 
-# OS / editor 
-.DS_Store 
-Thumbs.db 
-.idea/ 
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Builds
+dist/
+**/dist/
+.turbo/
+.tsbuildinfo/
+
+# Env
+.env
+**/.env*
+
+# Logs
+logs/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
 .vscode/
